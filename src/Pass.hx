@@ -11,7 +11,7 @@ class Pass {
         this.idCardColor = Generator.getIdCardColor(gender);
         this.passId = Generator.generatePassId(this.fullName);
     }
-
+    
     public function isValid() {
         // dorm, faculty, idCardColor, passId
         function checkPassId(passId:String):Bool {
@@ -28,7 +28,7 @@ class Pass {
             }
             return true;
         }
-
+        
         if (this.dorm != GameState.currentDorm) {
             return false; 
         }

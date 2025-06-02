@@ -9,7 +9,7 @@ class GameState {
 
     public function generateAllStudents() {
         for (i in Generator.dorms) {
-            for (j in 0...10) {
+            for (j in 0...100) {
                 var person = new Person();
                 this.allStudents.push(person);
             }

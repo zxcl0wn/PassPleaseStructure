@@ -128,12 +128,26 @@ class Generator {
 
 
     public static function getDorm() {
-        var dorm:String = Generator.dorms[Std.random(Generator.dorms.length)];
+        var randomNumber:Int = Generator.randomMistake();  // 0..9
+        var dorm:String = '';
+        if (randomNumber > 10) {
+            dorm = '6.2';
+        }
+        else {
+            while (true) {
+                dorm = Generator.dorms[Std.random(Generator.dorms.length)];
+                if (dorm == '6.2')
+                    continue;
+                else
+                    break;
+            }
+        }
+        
         return dorm;
     }
 
     public static function getIdCardColor(gender:String) {
-        if (Generator.randomMistake() > 70) {
+        if (Generator.randomMistake() > 95) {
             if (gender == "Male") {
                 return 'pink';
             }
@@ -159,7 +173,7 @@ class Generator {
     public static function generatePassId(fullName:Map<String, String>):String {
         var part1 = Std.random(900)+100;
 
-        if (Generator.randomMistake() > 70) {
+        if (Generator.randomMistake() > 95) {
             fullName = Generator.getFullName("Male");
         }
         var part2 = '${fullName['surname'].toUpperCase()}${fullName['name'].toUpperCase().substr(0,1)}${fullName['patronymics'].toUpperCase().substr(0,2)}';
@@ -197,12 +211,22 @@ class Generator {
             "soap"
         ];
         
-        for (i in 0...(Std.random(3)+1)) {
+        for (i in 0...(Std.random(5)+1)) {
             while (true) {
-                var item = items[Std.random(items.length)];
-                if (!backpackItems.contains(item)) {
-                    backpackItems.push(item);
-                    break;
+                var randomNumber:Int = Generator.randomMistake();
+                if (randomNumber > 3) { 
+                    var legalItem = items[Std.random(items.length)];
+                    if (!(backpackItems.contains(legalItem)) && !(Generator.bannedItems.contains(legalItem))) {
+                        backpackItems.push(legalItem);
+                        break;
+                    }
+                }
+                else { // banned item
+                    var bannedItem = Generator.bannedItems[Std.random(Generator.bannedItems.length)];
+                    if (!backpackItems.contains(bannedItem)) {
+                        backpackItems.push(bannedItem);
+                        break;
+                    }
                 }
             }
         }
